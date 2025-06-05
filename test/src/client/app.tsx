@@ -1,48 +1,39 @@
 import React from "@rbxts/react";
-import { ChromaProvider, useChroma } from "@rbxts/chroma";
-
-const myThemes = {
-	light: {
-		background: Color3.fromHex("#FFFFFF"),
-		foreground: Color3.fromHex("#000000"),
-	},
-	dark: {
-		background: Color3.fromHex("#000000"),
-		foreground: Color3.fromHex("#FFFFFF"),
-	},
-	default: {
-		background: Color3.fromHex("#FFFFFF"),
-		foreground: Color3.fromHex("#000000"),
-	},
-};
+import { ChromaProvider, DefaultPalettes, useChroma } from "@rbxts/chroma";
+import Object from "@rbxts/object-utils";
 
 export function ThemeSwitcherButton() {
-	const { theme, setTheme, currentTheme } = useChroma<typeof myThemes>();
+	const { theme, setTheme, currentTheme } = useChroma<typeof DefaultPalettes>();
 
 	return (
-		<textbutton
-			Text={`Switch Theme: ${currentTheme}`}
-			TextColor3={theme.foreground}
-			BackgroundColor3={theme.background}
-			AnchorPoint={new Vector2(0.5, 0.5)}
-			Position={UDim2.fromScale(0.5, 0.5)}
-			Size={UDim2.fromOffset(200, 50)}
-			Event={{
-				MouseButton1Click: () => {
-					if (currentTheme === "dark") {
-						setTheme("light");
-					} else {
-						setTheme("dark");
-					}
-				},
-			}}
-		/>
+		<frame BackgroundColor3={theme.default.background} Size={new UDim2(1,0,1,0)} Position={new UDim2(0.5, 0, 0.5, 0)} AnchorPoint={new Vector2(0.5,0.5)}>
+			<uilistlayout HorizontalAlignment={"Center"} VerticalAlignment={"Center"} FillDirection={"Vertical"} Padding={new UDim(0, 5)}/>
+			{
+				Object.keys(DefaultPalettes).map((themeName) => (
+					<textbutton
+						Text={`${themeName}`}
+						TextColor3={theme.default.text}
+						TextSize={12}
+						BackgroundColor3={theme.default.surface}
+						AnchorPoint={new Vector2(0.5, 0.5)}
+						Size={UDim2.fromOffset(200, 50)}
+						Event={{
+							MouseButton1Click: () => {
+								setTheme(themeName);
+							}
+						}}
+					>
+						<uicorner CornerRadius={new UDim(0, 8)}/>
+					</textbutton>
+				))
+			}
+		</frame>
 	);
 }
 
 export function App() {
 	return (
-		<ChromaProvider theme={myThemes} currentTheme={"light"}>
+		<ChromaProvider theme={DefaultPalettes} currentTheme={"mocha"}>
 			<ThemeSwitcherButton />
 		</ChromaProvider>
 	);

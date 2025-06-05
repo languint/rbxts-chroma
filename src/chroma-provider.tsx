@@ -1,20 +1,20 @@
-import { ChromaContext } from "./chroma-context";
+import { ChromaContext, ChromaContextValue } from "./chroma-context";
 import { Themes } from "./theme";
 import React, { useState } from "@rbxts/react";
 
-interface ChromaProviderProps {
-	theme: Themes;
-	currentTheme: keyof Themes;
+interface ChromaProviderProps<T extends Themes = Themes> {
+	theme: T;
+	currentTheme: keyof T;
 	children: React.ReactNode;
 }
 
-export const ChromaProvider: React.FunctionComponent<ChromaProviderProps> = ({
+export const ChromaProvider = <T extends Themes = Themes>({
 	theme,
 	currentTheme: initialTheme,
 	children,
-}) => {
+}: ChromaProviderProps<T>) => {
 	const fallbackTheme = theme["default"];
-	const [currentTheme, setCurrentTheme] = useState<keyof Themes>(initialTheme);
+	const [currentTheme, setCurrentTheme] = useState<keyof T>(initialTheme);
 
 	const activeTheme = theme[currentTheme] ?? fallbackTheme;
 
@@ -26,8 +26,8 @@ export const ChromaProvider: React.FunctionComponent<ChromaProviderProps> = ({
 		<ChromaContext.Provider
 			value={{
 				theme: activeTheme,
-				currentTheme: currentTheme as string,
-				setTheme: (v: keyof Themes) => setCurrentTheme(v),
+				currentTheme: tostring(currentTheme),
+				setTheme: (v: keyof T) => setCurrentTheme(v),
 			}}
 		>
 			{children}
@@ -36,13 +36,7 @@ export const ChromaProvider: React.FunctionComponent<ChromaProviderProps> = ({
 };
 
 export function useChroma<T extends Themes = Themes>() {
-	const context = React.useContext(ChromaContext) as
-		| {
-				theme: T[keyof T];
-				setTheme: (themeKey: keyof T) => void;
-				currentTheme: keyof T;
-		  }
-		| undefined;
+	const context = React.useContext(ChromaContext) as ChromaContextValue<T> | undefined;
 	if (!context) error("useChroma must be used within a ChromaProvider!");
 	return context;
 }

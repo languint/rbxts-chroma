@@ -26,7 +26,7 @@ npm install @rbxts/chroma
 
 ```tsx
 import React from "@rbxts/react";
-import { ChromaProvider, useChroma, DefaultThemes, createTheme } from "@rbxts/chroma";
+import { ChromaProvider, useChroma, createTheme } from "@rbxts/chroma";
 
 // Define your themes
 const myThemes = {
@@ -49,14 +49,14 @@ const myThemes = {
 
 export function App() {
     return (
-        <ChromaProvider theme={myThemes} currentTheme="light">
+        <ChromaProvider<typeof myThemes> theme={myThemes} currentTheme="light">
             <MyComponent />
         </ChromaProvider>
     );
 }
 
 function MyComponent() {
-    const { theme, setTheme } = useChroma<typeof myThemes>();
+    const { theme, setTheme, currentTheme } = useChroma<typeof myThemes>();
 
     return (
         <frame
@@ -65,44 +65,62 @@ function MyComponent() {
                 MouseButton1Click: () => setTheme("dark"),
             }}
         >
-            <textlabel Text="Hello, Chroma!" TextColor3={theme.foreground} />
+            <textlabel Text={`Hello, Chroma! Current: ${currentTheme}`} TextColor3={theme.foreground} />
         </frame>
     );
 }
 ```
 
----
+Chroma comes with `DefaultPalettes` for an easier quickstart, see the example below with a theme switcher.
+```tsx
+import React from "@rbxts/react";
+import { ChromaProvider, DefaultPalettes, useChroma } from "@rbxts/chroma";
+import Object from "@rbxts/object-utils";
 
-## 🧩 API
+export function ThemeSwitcherButton() {
+    const { theme, setTheme, currentTheme } = useChroma<typeof DefaultPalettes>();
 
-### `ChromaProvider`
+    return (
+        <frame
+            BackgroundColor3={theme.default.background}
+            Size={new UDim2(1, 0, 1, 0)}
+            Position={new UDim2(0.5, 0, 0.5, 0)}
+            AnchorPoint={new Vector2(0.5, 0.5)}
+        >
+            <uilistlayout
+                HorizontalAlignment={"Center"}
+                VerticalAlignment={"Center"}
+                FillDirection={"Vertical"}
+                Padding={new UDim(0, 5)}
+            />
+            {Object.keys(DefaultPalettes).map((themeName) => (
+                <textbutton
+                    Text={`${themeName}`}
+                    TextColor3={theme.default.text}
+                    TextSize={12}
+                    BackgroundColor3={theme.default.surface}
+                    AnchorPoint={new Vector2(0.5, 0.5)}
+                    Size={UDim2.fromOffset(200, 50)}
+                    Event={{
+                        MouseButton1Click: () => {
+                            setTheme(themeName);
+                        },
+                    }}
+                >
+                    <uicorner CornerRadius={new UDim(0, 8)} />
+                </textbutton>
+            ))}
+        </frame>
+    );
+}
 
-Wrap your app to provide theme context.
-
-**Props:**
-
-- `theme: Themes` — An object containing your theme variants (e.g., `light`, `dark`, `gray`, etc.).
-- `currentTheme: keyof Themes` — The key of the active theme.
-- `children: React.ReactNode` — Your app's components.
-
-### `useChroma()`
-
-A hook to access the current theme and a setter.
-
-**Returns:**
-
-- `theme: Theme` — The current theme object.
-- `setTheme: (theme: keyof Themes) => void` — Function to update the theme.
-- `currentTheme: keyof Themes` — The current theme name.
-
-### `createTheme(base, override)`
-
-Utility to create a new theme by overriding properties of a base theme.
-
-**Example:**
-
-```ts
-const darkTheme = createTheme(lightTheme, { background: Color3.fromHex("#000000") });
+export function App() {
+    return (
+        <ChromaProvider theme={DefaultPalettes} currentTheme={"mocha"}>
+            <ThemeSwitcherButton />
+        </ChromaProvider>
+    );
+}
 ```
 
 ---
