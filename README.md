@@ -62,7 +62,7 @@ function MyComponent() {
         <frame
             BackgroundColor3={theme.background}
             Event={{
-                MouseButton1Click: () => setTheme(myThemes.dark),
+                MouseButton1Click: () => setTheme("dark"),
             }}
         >
             <textlabel Text="Hello, Chroma!" TextColor3={theme.foreground} />
@@ -92,7 +92,8 @@ A hook to access the current theme and a setter.
 **Returns:**
 
 - `theme: Theme` — The current theme object.
-- `setTheme: (theme: Theme) => void` — Function to update the theme.
+- `setTheme: (theme: keyof Themes) => void` — Function to update the theme.
+- `currentTheme: keyof Themes` — The current theme name.
 
 ### `createTheme(base, override)`
 
