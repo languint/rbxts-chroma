@@ -7,9 +7,10 @@
     "watch": "rbxtsc -w",
     "prepublishOnly": "npm run build"
   },
-  "keywords": [],
+  "keywords": ["roblox-ts", "gamedev", "ui"],
   "author": "longuint-rbx",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {"url": "https://github.com/languint/rbxts-chroma"},
   "description": "",
   "types": "out/index.d.ts",
   "files": [
