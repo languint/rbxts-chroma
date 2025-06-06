@@ -1,9 +1,10 @@
 import { source } from "@rbxts/vide";
-import { DefaultPalettesType } from "../chroma-palettes";
-import { Palettes } from "../types/palette";
+import { DefaultPalettesType, DefaultPaletteTokens } from "../chroma-palettes";
+import { Palette, Palettes } from "../types/palette";
 
 export interface ChromaContext<P extends Palettes = DefaultPalettesType> {
 	currentPalette: keyof P;
+	tokens: Palette["tokens"];
 }
 
 const chromaState = source<ChromaContext>();
