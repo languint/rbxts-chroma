@@ -1,4 +1,4 @@
-export * from "./chroma-context";
-export * from "./chroma-provider";
-export * from "./theme";
+export * from "./types/palette";
 export * from "./chroma-palettes";
+export * from "./hooks/use-chroma";
+export * from "./types/palette";

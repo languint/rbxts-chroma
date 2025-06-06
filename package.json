@@ -7,10 +7,16 @@
     "watch": "rbxtsc -w",
     "prepublishOnly": "npm run build"
   },
-  "keywords": ["roblox-ts", "gamedev", "ui"],
+  "keywords": [
+    "roblox-ts",
+    "gamedev",
+    "ui"
+  ],
   "author": "longuint-rbx",
   "license": "MIT",
-  "repository": {"url": "https://github.com/languint/rbxts-chroma"},
+  "repository": {
+    "url": "https://github.com/languint/rbxts-chroma"
+  },
   "description": "",
   "types": "out/index.d.ts",
   "files": [
@@ -34,6 +40,6 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@rbxts/react": "^17.2.3"
+    "@rbxts/vide": "^0.5.7"
   }
 }

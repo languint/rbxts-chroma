@@ -1,4 +1,4 @@
-import { Themes } from "./theme";
+import { Palette, Palettes } from "./types/palette";
 
 export interface DefaultPaletteTokens {
 	background: Color3;
@@ -13,7 +13,7 @@ export interface DefaultPaletteTokens {
 // Define the palettes with `as const` for literal inference
 export const DefaultPalettes = {
 	mocha: {
-		default: {
+		tokens: {
 			background: Color3.fromRGB(24, 24, 37),
 			surface: Color3.fromRGB(30, 30, 46),
 			text: Color3.fromRGB(205, 214, 244),
@@ -24,7 +24,7 @@ export const DefaultPalettes = {
 		},
 	},
 	macchiato: {
-		default: {
+		tokens: {
 			background: Color3.fromRGB(30, 32, 48),
 			surface: Color3.fromRGB(36, 39, 58),
 			text: Color3.fromRGB(202, 211, 245),
@@ -35,7 +35,7 @@ export const DefaultPalettes = {
 		},
 	},
 	frappe: {
-		default: {
+		tokens: {
 			background: Color3.fromRGB(41, 44, 60),
 			surface: Color3.fromRGB(48, 52, 70),
 			text: Color3.fromRGB(198, 208, 245),
@@ -46,7 +46,7 @@ export const DefaultPalettes = {
 		},
 	},
 	latte: {
-		default: {
+		tokens: {
 			background: Color3.fromRGB(230, 233, 239),
 			surface: Color3.fromRGB(239, 241, 245),
 			text: Color3.fromRGB(76, 79, 105),
@@ -56,7 +56,7 @@ export const DefaultPalettes = {
 			error: Color3.fromRGB(210, 15, 57),
 		},
 	},
-} as const;
+} as { [k: string]: Palette };
 
 // Infer the type of DefaultPalettes
 export type DefaultPalettesType = typeof DefaultPalettes;
